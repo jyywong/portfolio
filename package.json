@@ -15,7 +15,9 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.0",
     "babel-plugin-styled-components": "^1.13.2",
+    "framer-motion": "^4.1.17",
     "gatsby": "^3.11.1",
     "gatsby-plugin-image": "^1.11.0",
     "gatsby-plugin-sharp": "^3.11.0",
