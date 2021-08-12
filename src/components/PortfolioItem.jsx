@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import Layout from './Layout';
 import styled from 'styled-components';
 import { StaticImage } from 'gatsby-plugin-image';
-import SiteButton from './SiteButton';
-import GithubButton from './GithubButton';
 
 const Background = styled.div`
 	display: flex;
@@ -124,7 +122,139 @@ const BackPolygon = styled(motion.div)`
 	box-shadow: 0 0 12px rgba(0, 0, 0, 0.83);
 `;
 
+const SiteButtonShape = styled(motion.div)`
+    cursor: pointer;
+	position: absolute;
+	top: 26vh;
+	left: 3vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(101, 30, 38, 1);
+	width: 175px;
+	height: 50px;
+	transform: skew(-20deg);
+	box-shadow: 0 0 12px rgba(0, 0, 0, 0.83);
+
+`;
+const SiteButtonText = styled(motion.h5)`
+	transform: skew(20deg);
+	color: rgba(196, 196, 196, 1);
+	font-size: 2.5rem;
+	font-weight: normal;
+    
+`;
+
+const GitButtonShape = styled(motion.div)`
+    cursor: pointer;
+	position: absolute;
+	top: 26vh;
+	left: 18vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(122, 138, 128, 1);
+	width: 175px;
+	height: 50px;
+	transform: skew(-20deg);
+	box-shadow: 0 0 12px rgba(0, 0, 0, 0.83);
+`;
+const GitButtonText = styled(motion.h5)`
+	transform: skew(20deg);
+	color: rgba(196, 196, 196, 1);
+	font-size: 2.5rem;
+	font-weight: normal;
+`;
+
+const TrackContainer = styled(motion.div)`
+position: absolute;
+	top: 0;
+	right:0;
+	display: flex;
+	transform: rotate(-10deg);
+`;
+
+const TopTrack = styled(motion.div)`
+	position: absolute;
+	top: 5vh;
+	right: 0;
+	border: 2px dashed rgba(122, 138, 128, 1);
+	width: 28vw;
+    
+`;
+const MidTrack = styled(motion.div)`
+	position: absolute;
+	top: 5vh;
+	right: calc(28vw + 4px);
+	border: 2px dashed rgba(122, 138, 128, 1);
+	height: 35vw;
+    
+`;
+const BotTrack = styled(motion.div)`
+	position: absolute;
+	top: calc(5vh + 35vw);
+	right: calc(28vw + 8px);
+	border: 2px dashed rgba(122, 138, 128, 1);
+	width: 8vw;
+`;
+
+const LMarksTheSpot = styled(motion.div)`
+	position: absolute;
+	top: calc(5vh + 35vw);
+	right: calc(35vw + 8px);
+	border: 4px solid rgba(122, 138, 128, 1);
+	width: 6vw;
+	transform-origin: center;
+	transform:rotate(45deg);
+`;
+const RMarksTheSpot = styled(motion.div)`
+	position: absolute;
+	top: calc(5vh + 35vw);
+	right: calc(35vw + 8px);
+	border: 4px solid rgba(122, 138, 128, 1);
+	width: 6vw;
+	transform-origin: center;
+	transform:rotate(-45deg);
+`;
+// const TabContainer = styled(motion.div)`
+// 	display: flex;
+// 	width:100%;
+
+// `;
+// const TabText = styled(motion.h4)`
+// 	font-size: 3rem;
+// 	font-weight: normal;
+// 	color:rgba(147, 135, 88, 1);
+// 	margin-left: 10rem;
+// `;
+// const TabTextRight = styled(motion.h4)`
+// 	font-size: 3rem;
+// 	font-weight: normal;
+// 	color:rgba(147, 135, 88, 1);
+// 	margin-left: 10rem;
+
+// 	&:hover ~ ${TabUnderline}{
+// 		margin-left: 10rem;
+// 	}
+// `;
+// const TabUnderline = styled(motion.hr)`
+// 	height: .25rem;
+//   	width: 20%;
+//  	margin-left: 5rem;
+//   	background: tomato;
+//   	border: none;
+//   	transition: .3s ease-in-out;
+
+// `;
+
 const PortfolioItem = () => {
+	const controlTopTrack = useAnimation();
+	const controlMidTrack = useAnimation();
+	const controlBotTrack = useAnimation();
+	const controlLSpot = useAnimation();
+	const controlRSpot = useAnimation();
+	const controlSiteButton = useAnimation();
+	const controlGitButton = useAnimation();
 	const controlTopLine = useAnimation();
 	const controlButtonLine = useAnimation();
 	const controlExitLine = useAnimation();
@@ -132,6 +262,55 @@ const PortfolioItem = () => {
 	const controlBackPoly = useAnimation();
 	const controlMidPoly = useAnimation();
 	const controlForePoly = useAnimation();
+
+	const trailAnimateSeq = async () => {
+		await controlTopTrack.start({
+			width: '28vw',
+			opacity: 1,
+			transition: { type: 'tween', duration: 2 }
+		});
+		await controlMidTrack.start({
+			height: '35vw',
+			opacity: 1,
+			transition: { type: 'tween', duration: 2 }
+		});
+		await controlBotTrack.start({
+			width: '8vw',
+			opacity: 1,
+			transition: { type: 'tween', duration: 2 }
+		});
+		controlLSpot.start({
+			opacity: 1,
+			scale: 1,
+			rotate: 45,
+			transition: { duration: 2 }
+		});
+		await controlRSpot.start({
+			opacity: 1,
+			scale: 1,
+			rotate: -45,
+			transition: { duration: 2 }
+		});
+		await controlTopTrack.start({
+			opacity: 0,
+			transitionEnd: { width: 0 }
+		});
+		await controlMidTrack.start({
+			opacity: 0,
+			transitionEnd: { height: 0 }
+		});
+		await controlBotTrack.start({
+			opacity: 0,
+			transitionEnd: { width: 0 }
+		});
+		controlLSpot.start({
+			opacity: 0
+		});
+		await controlRSpot.start({
+			opacity: 0
+		});
+		trailAnimateSeq();
+	};
 
 	const lineAnimateSeq = async () => {
 		await controlTopLine.start({
@@ -171,6 +350,15 @@ const PortfolioItem = () => {
 		});
 		await lineAnimateSeq();
 		polyAnimateSeq();
+		controlSiteButton.start({
+			x: 0,
+			transition: { type: 'spring', mass: 1, damping: 14, delay: 0.6, duration: 1 }
+		});
+		controlGitButton.start({
+			x: 0,
+			transition: { type: 'spring', mass: 1, damping: 14, delay: 0.75, duration: 1 }
+		});
+		trailAnimateSeq();
 	};
 
 	useEffect(() => {
@@ -180,18 +368,53 @@ const PortfolioItem = () => {
 	return (
 		<Layout>
 			<Background>
+				<TrackContainer>
+					<TopTrack animate={controlTopTrack} initial={{ width: 0 }} />
+					<MidTrack animate={controlMidTrack} initial={{ height: 0 }} />
+					<BotTrack animate={controlBotTrack} initial={{ width: 0 }} />
+					<LMarksTheSpot animate={controlLSpot} initial={{ scale: 0, rotate: 45 }} />
+					<RMarksTheSpot animate={controlRSpot} initial={{ scale: 0, rotate: -45 }} />
+				</TrackContainer>
+
 				<TopLine animate={controlTopLine} />
 				<ButtonLine animate={controlButtonLine} />
 				<ExitLine animate={controlExitLine} />
 				<ContentContainer>
 					<DescriptionContainer animate={controlDescription}>
-						<ProjectName>Trip Planner</ProjectName>
+						<div>
+							<ProjectName>Trip Planner</ProjectName>
+							{/* <TabContainer>
+								<TabText>Hello</TabText>
+								<TabTextRight>Hello</TabTextRight>
+								<TabUnderline />
+							</TabContainer> */}
+						</div>
+
 						<ProjectDescription>
 							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat ex sint animi deleniti
 							explicabo a quibusdam minima alias veritatis repudiandae!
 						</ProjectDescription>
-						<SiteButton />
-						<GithubButton />
+						<SiteButtonShape
+							animate={controlSiteButton}
+							whileHover={{ scale: 1.1, skew: -20 }}
+							initial={{ skew: -20, x: 2000 }}
+						>
+							<SiteButtonText
+								whileHover={{
+									color: 'rgba(147, 135, 88, 1)',
+									textShadow: '0 0 2px rgba(251, 217, 87, 1)'
+								}}
+							>
+								Live Site
+							</SiteButtonText>
+						</SiteButtonShape>
+						<GitButtonShape
+							animate={controlGitButton}
+							whileHover={{ scale: 1.1, skew: -20 }}
+							initial={{ skew: -20, x: 2000 }}
+						>
+							<GitButtonText>Github</GitButtonText>
+						</GitButtonShape>
 					</DescriptionContainer>
 					<ImagesContainer>
 						<BackPolygonShadowWrap>

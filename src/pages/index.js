@@ -2,6 +2,7 @@ import * as React from 'react';
 import '@fontsource/roboto';
 import Hero from '../components/Hero';
 import PortfolioItem from '../components/PortfolioItem';
+import PortfolioIMS from '../components/PortfolioIMS';
 
 // styles
 
@@ -57,7 +58,8 @@ const IndexPage = () => {
 	return (
 		<React.Fragment>
 			{/* <Hero /> */}
-			<PortfolioItem />
+			{/* <PortfolioItem /> */}
+			<PortfolioIMS />
 		</React.Fragment>
 	);
 };
